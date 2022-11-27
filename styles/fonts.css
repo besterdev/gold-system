@@ -1,0 +1,20 @@
+@font-face {
+    font-family: "Sukhumvit bold";
+    src: url("./fonts/SukhumvitSet-Bold.ttf");
+    font-style: normal;
+    font-weight: 700 !important;
+}
+
+@font-face {
+    font-family: "Sukhumvit semibold";
+    src: url("./fonts/SukhumvitSet-SemiBold.ttf");
+    font-style: normal;
+    font-weight: 600 !important;
+}
+
+@font-face {
+    font-family: "Sukhumvit text";
+    src: url("./fonts/SukhumvitSet-Text.ttf");
+    font-style: normal;
+    font-weight: 400 !important;
+}
