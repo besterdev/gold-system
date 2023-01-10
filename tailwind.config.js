@@ -62,6 +62,9 @@ module.exports = {
           500: "#7A0916"
         },
       },
+      boxShadow: {
+        'card': 'rgb(145 158 171 / 20%) 0px 0px 2px 0px, rgb(145 158 171 / 12%) 0px 12px 24px -4px'
+      },
       keyframes: {
         'ripple-effect': {
           '0%': { transform: 'scale(1)', opacity: 1 },
@@ -78,10 +81,21 @@ module.exports = {
           '60%': { transform: 'rotate(0.0deg)' },
           '100%': { transform: 'rotate(0.0deg)' },
         },
+        'fade-in-effect': {
+          '0%': { transform: 'scale(0) block', opacity: 0 },
+          '100%': { transform: 'scale(1) ', opacity: 1 }
+        },
+        'fade-out-effect': {
+          '100%': { transform: 'scale(1)', opacity: 1 },
+          '0%': { transform: 'scale(0) hidden', opacity: 0 }
+
+        }
       },
       animation: {
         'ripple': '1.2s ease 1 forwards ripple-effect',
         'waving-hand': 'wave 2s linear infinite',
+        'fade-in': 'fade-in-effect  0.4s',
+        'fade-out': 'fade-in-effect  0.4s'
       },
     },
   },
