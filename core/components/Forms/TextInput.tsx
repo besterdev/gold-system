@@ -1,9 +1,10 @@
 import { forwardRef, ComponentProps } from 'react'
+import { FieldError } from 'react-hook-form'
 
 export interface TextInputProps extends Omit<ComponentProps<'input'>, 'ref' | 'color'> {
   id: string
   label?: string
-  error?: string
+  error?: string | FieldError | any
 }
 
 const inputStyles = {
@@ -32,6 +33,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(({ id, lab
         placeholder=" "
         ref={ref}
         {...props}
+        autoComplete="off"
       />
       <label
         htmlFor={id}

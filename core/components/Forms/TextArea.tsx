@@ -1,9 +1,10 @@
-import React, { ComponentProps } from 'react'
+import { forwardRef, ComponentProps } from 'react'
+import { FieldError } from 'react-hook-form'
 
 export interface TextAreaProps extends Omit<ComponentProps<'textarea'>, 'ref' | 'color'> {
   id: string
   label?: string
-  error?: string
+  error?: string | FieldError | any
 }
 
 const inputStyles = {
@@ -16,13 +17,14 @@ const labelStyles = {
   error: `text-error-300 peer-focus:text-error-300`
 }
 
-export const TextArea = ({ id, label, error, className, ...props }: TextAreaProps) => {
+// eslint-disable-next-line react/display-name
+export const TextArea = forwardRef<HTMLInputElement, TextAreaProps>(({ id, label, error, className, ...props }, ref) => {
   return (
     <div className={`relative ${className}`}>
       <textarea
         id={id}
         className={`text-black-500 subtitle2 peer h-32 w-full resize-none appearance-none rounded-md border py-4 px-4 placeholder-transparent shadow-sm
-           ring-0  scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[#e7e7eb] scrollbar-track-rounded-full scrollbar-thumb-rounded-full
+           ring-0 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[#e7e7eb] scrollbar-track-rounded-full scrollbar-thumb-rounded-full
            focus:right-0 focus:outline-none
              disabled:cursor-not-allowed 
             disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none ${
@@ -42,4 +44,4 @@ export const TextArea = ({ id, label, error, className, ...props }: TextAreaProp
       </label>
     </div>
   )
-}
+})

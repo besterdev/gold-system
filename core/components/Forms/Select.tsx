@@ -73,8 +73,8 @@ export const Select = ({ id, label, error, className, options, value, disabled, 
 
       {isOpen ? (
         <div className="absolute z-50 w-full overflow-hidden bg-white rounded-md shadow-lg top-16">
-          {_.map(options, (option) => (
-            <div className="px-4 py-2 cursor-pointer hover:bg-grey-200" onClick={handleSelect}>
+          {_.map(options, (option, i) => (
+            <div className="px-4 py-2 cursor-pointer hover:bg-grey-200" key={`option_${i}`} onClick={handleSelect}>
               {option.name}
             </div>
           ))}
