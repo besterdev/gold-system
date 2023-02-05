@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react'
 import useRipple from '@core/hooks/useRipple'
 
 interface ButtonProps {
-  color?: 'primary' | 'secondary'
+  color?: 'primary' | 'secondary' | 'custom'
   size?: 'small' | 'medium' | 'large'
   isLoading?: boolean
   children?: ReactNode
@@ -14,7 +14,8 @@ interface ButtonProps {
 const colorStyle = {
   primary: `bg-primary-300 text-white hover:bg-primary-400`,
   secondary: `bg-secondary-300 text-white hover:bg-secondary-400`,
-  disabled: `bg-grey-800 text-white cursor-not-allowed`
+  disabled: `bg-grey-800 text-white cursor-not-allowed`,
+  custom: ''
 }
 
 const sizeStyle = {

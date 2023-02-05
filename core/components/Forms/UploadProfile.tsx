@@ -2,7 +2,7 @@
 import Image from 'next/image'
 import React, { useRef, useState } from 'react'
 
-export const UploadImage = () => {
+export const UploadProfile = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
   const fileRef = useRef<HTMLInputElement>(null)
 

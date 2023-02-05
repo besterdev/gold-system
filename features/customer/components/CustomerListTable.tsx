@@ -1,10 +1,12 @@
 import React, { useMemo } from 'react'
+import Router from 'next/router'
 import { ColumnDef } from '@tanstack/react-table'
 import _ from 'lodash'
 
 import { DataTable, EllipsisIconOption, ImageFallback } from '@core/components/index'
 
 type Person = {
+  id: string
   firstName: string
   lastName: string
   idCard: string
@@ -17,6 +19,27 @@ type Person = {
 }
 
 const CustomerListTable = ({ data }: any) => {
+  const option = (customerId: string) => {
+    const options = [
+      {
+        label: <p className="text-grey-800">view</p>,
+        icon: 'fa-solid fa-eye',
+        handleClick: () => Router.push(`/customer/${customerId}`)
+      },
+      {
+        label: <p className="text-grey-800">edit</p>,
+        icon: 'fa-regular fa-pen-to-square',
+        handleClick: () => Router.push('/customer/')
+      },
+      {
+        label: <p className="text-error-300">delete</p>,
+        icon: 'fa-regular fa-trash-can text-error-300',
+        handleClick: () => console.log('deleted')
+      }
+    ]
+    return options
+  }
+
   const columns = useMemo<ColumnDef<Person>[]>(
     () => [
       {
@@ -55,9 +78,9 @@ const CustomerListTable = ({ data }: any) => {
       {
         header: ' ',
         colspan: 1,
-        cell: () => (
+        cell: ({ row }) => (
           <div className="flex items-center justify-end h-full col-span-1 pr-6 text-grey-800">
-            <EllipsisIconOption />
+            <EllipsisIconOption options={option(row.original?.id)} />
           </div>
         )
       }

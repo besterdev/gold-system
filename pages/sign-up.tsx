@@ -34,7 +34,7 @@ const SignUp = () => {
     resolver: yupResolver(schema)
   })
 
-  const onSubmit = handleSubmit((data: FormData) => {
+  const onSubmit = handleSubmit((data) => {
     useSignUp.mutate({ data: data })
   })
 
@@ -43,6 +43,10 @@ const SignUp = () => {
       console.log(data)
     }
   })
+
+  const h = (t) => {
+    console.log(t)
+  }
 
   return (
     <div className="flex w-screen h-screen">

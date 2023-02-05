@@ -53,7 +53,7 @@ export const DataTable = ({ data, columns }: TableProps) => {
 
   return (
     <div className="w-full">
-      <table className="w-full overflow-hidden bg-white">
+      <table className="w-full bg-white">
         <thead className="px-4">
           {table.getHeaderGroups().map((headerGroup) => (
             <tr className="grid grid-cols-12 gap-4 bg-grey-200" key={headerGroup.id}>

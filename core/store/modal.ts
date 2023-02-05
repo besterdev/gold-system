@@ -1,7 +1,13 @@
 import create from 'zustand'
 
-export const useModalStore = create((set) => ({
+interface ModalState {
+  isOpen: boolean
+  toggleDialog: () => void
+  onConfirm: () => void
+}
+
+export const useModalStore = create<ModalState>((set) => ({
   isOpen: false,
-  //   type: 'confirm' | 'dialog',
-  setUser: (data: any) => set({ user: data })
+  toggleDialog: () => set((state) => ({ isOpen: !state.isOpen })),
+  onConfirm: () => null
 }))

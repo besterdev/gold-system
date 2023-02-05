@@ -1,14 +1,15 @@
-import React, { useState } from 'react'
+import React from 'react'
 import CustomerListTable from '@features/customer/components/CustomerListTable'
 import AuthMiddleware from 'core/middleware/AuthMiddleware'
 import _ from 'lodash'
 
 import { Button, SearchInput } from '@core/components'
-import useDebounce from '@core/hooks/useDebounce'
 
 import { useCustomerListStore } from '@features/customer/store'
+import { useRouter } from 'next/router'
 
 type Person = {
+  id: string
   firstName: string
   lastName: string
   idCard: string
@@ -27,6 +28,7 @@ const generateRandomIdCard = () => {
 
 const defaultData: Person[] = [
   {
+    id: '1',
     firstName: 'วิรขัย',
     lastName: 'พรมันลา',
     idCard: generateRandomIdCard(),
@@ -38,6 +40,7 @@ const defaultData: Person[] = [
     balance: 30000
   },
   {
+    id: '2',
     firstName: 'สุพิศ',
     lastName: 'วิเศษชาติ',
     idCard: generateRandomIdCard(),
@@ -49,6 +52,7 @@ const defaultData: Person[] = [
     balance: 530000
   },
   {
+    id: '3',
     firstName: 'นฤเดช',
     lastName: 'บัวพร',
     idCard: generateRandomIdCard(),
@@ -60,6 +64,7 @@ const defaultData: Person[] = [
     balance: 80000
   },
   {
+    id: '4',
     firstName: 'อำพร',
     lastName: 'แก้วจันทร์',
     idCard: generateRandomIdCard(),
@@ -71,6 +76,7 @@ const defaultData: Person[] = [
     balance: 80000
   },
   {
+    id: '5',
     firstName: 'ลำดวน',
     lastName: 'โพธิ์แก้ว',
     idCard: generateRandomIdCard(),
@@ -82,6 +88,7 @@ const defaultData: Person[] = [
     balance: 80000
   },
   {
+    id: '6',
     firstName: 'ธรีพล',
     lastName: 'ศรชัย',
     idCard: generateRandomIdCard(),
@@ -93,6 +100,7 @@ const defaultData: Person[] = [
     balance: 80000
   },
   {
+    id: '7',
     firstName: 'วิรรณภา',
     lastName: 'สิงห์ศร',
     idCard: generateRandomIdCard(),
@@ -104,6 +112,7 @@ const defaultData: Person[] = [
     balance: 80000
   },
   {
+    id: '8',
     firstName: 'สิทธิ์ศักดิ์',
     lastName: 'วิเศษชาติ',
     idCard: generateRandomIdCard(),
@@ -115,6 +124,7 @@ const defaultData: Person[] = [
     balance: 80000
   },
   {
+    id: '9',
     firstName: 'สุวรรณา',
     lastName: 'วงศ์ภักดี',
     idCard: generateRandomIdCard(),
@@ -126,6 +136,7 @@ const defaultData: Person[] = [
     balance: 80000
   },
   {
+    id: '10',
     firstName: 'ธีดา',
     lastName: 'หาวัน',
     idCard: generateRandomIdCard(),
@@ -139,6 +150,7 @@ const defaultData: Person[] = [
 ]
 
 const Customer = () => {
+  const router = useRouter()
   // const [search, setSearch] = useState('')
   // const [data, setData] = React.useState(() => [...defaultData])
   // const debouncedValue = useDebounce<string>(search, 500)
@@ -153,7 +165,7 @@ const Customer = () => {
         <main className="flex flex-col justify-center w-full px-40 py-10">
           <div className="flex justify-between mb-10">
             <p className="heading3 text-grey-800">รายการลูกค้า</p>
-            <Button onClick={() => null} size="large">
+            <Button onClick={() => router.push('/customer/new')} size="large">
               <i className="mr-2 fa-solid fa-plus" />
               New Customer
             </Button>
@@ -162,15 +174,15 @@ const Customer = () => {
             <div className="w-full p-6 ">
               <SearchInput placeholder="ค้าหาชื่อลูกค้า หรือ เลขบัตรประชาชน" value={search} onChange={(value) => setSearch(value)} />
             </div>
-            <CustomerListTable data={defaultData} search={search} />
-            <div className="flex items-center justify-between px-6 py-4 mt-6 border-t">
+            <CustomerListTable data={defaultData} />
+            <div className="flex items-center justify-between px-6 py-4 border-t">
               <p className="body2 text-grey-600">Result 1-10 of 54</p>
               <div className="flex space-x-4">
-                <div className="flex items-center justify-center w-8 h-8 p-2 rounded-full cursor-pointer text-grey-800 hover:bg-grey-200">
-                  <i className=" fa-solid fa-chevron-left" />
+                <div className="flex items-center justify-center w-4 h-4 p-2 rounded-full cursor-pointer text-grey-800 hover:bg-grey-200">
+                  <i className="text-xs fa-solid fa-chevron-left" />
                 </div>
-                <div className="flex items-center justify-center w-8 h-8 p-2 rounded-full cursor-pointer text-grey-800 hover:bg-grey-200">
-                  <i className="fa-solid fa-chevron-right" />
+                <div className="flex items-center justify-center w-4 h-4 p-2 rounded-full cursor-pointer text-grey-800 hover:bg-grey-200">
+                  <i className="text-xs fa-solid fa-chevron-right" />
                 </div>
               </div>
             </div>

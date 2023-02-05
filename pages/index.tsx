@@ -4,9 +4,28 @@ import { Button, Select, TextArea, TextInput } from '@core/components'
 
 import AuthMiddleware from 'core/middleware/AuthMiddleware'
 import { useUserStore } from 'core/store/user'
+import { DatePicker } from '@core/components/Forms/DatePicker'
+import { useEffect } from 'react'
+
+interface FormUser {
+  id: number
+  name: string
+}
 
 export default function Home() {
   const user = useUserStore((state: any) => state.user)
+
+  const getUser = (data: FormUser): string => {
+    if (data.id === 1) {
+      return 'Hello world'
+    } else {
+      return 'Hello Worle'
+    }
+  }
+
+  useEffect(() => {
+    getUser({ id: 1, name: '1' })
+  }, [])
 
   return (
     <AuthMiddleware>
@@ -17,7 +36,7 @@ export default function Home() {
           <link rel="icon" href="/favicon.ico" />
         </Head>
 
-        <main className="grid h-screen bg-white-200 place-content-center">
+        <main className="grid h-screen bg-white-200 bg-pr place-content-center">
           <h1 className="mb-10 font-bold heading1">Gold System 101 {user?.email}</h1>
 
           <TextInput label="Email address" id="email" className="mb-4" />
@@ -35,6 +54,9 @@ export default function Home() {
             value="thailand"
             onSelect={() => console.log(123)}
           />
+
+          {/* <DatePicker id="start" value="2023-01-10" /> */}
+
           <Button color="secondary" className="mt-10" onClick={() => console.log(123)} size="large">
             Submit
           </Button>

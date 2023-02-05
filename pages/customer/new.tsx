@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 
-import { TextInput, Button, TextArea, UploadImage } from '@core/components'
+import { TextInput, Button, TextArea, UploadProfile } from '@core/components'
 
 interface FormData {
   firstName: string
@@ -13,16 +13,14 @@ interface FormData {
   email: string
 }
 
-const schema = yup
-  .object({
-    firstName: yup.string().required('กรุณากรอกชื่อ'),
-    lastName: yup.string().required('กรุณากรอกนามสกุล'),
-    idCard: yup.string().required('กรุณากรอกนามสกุล'),
-    phone: yup.string().required('กรุณากรอกเบอร์โทร'),
-    area: yup.string().required('กรุณากรอกเบอร์โทร'),
-    email: yup.string().email().required('กรุณากรอกอีเมล')
-  })
-  .required()
+const schema = yup.object({
+  firstName: yup.string().required('กรุณากรอกชื่อ'),
+  lastName: yup.string().required('กรุณากรอกนามสกุล'),
+  idCard: yup.string().required('กรุณากรอกนามสกุล'),
+  phone: yup.string().required('กรุณากรอกเบอร์โทร'),
+  area: yup.string().required('กรุณากรอกเบอร์โทร'),
+  email: yup.string().email().required('กรุณากรอกอีเมล')
+})
 
 const NewUserPage = () => {
   const {
@@ -38,7 +36,7 @@ const NewUserPage = () => {
     <div className="container grid h-screen mx-auto bg-white-200">
       <div className="flex items-start mt-10 space-x-8">
         <div className="flex flex-col items-center justify-center w-1/4 px-6 py-10 bg-white rounded-2xl shadow-card">
-          <UploadImage />
+          <UploadProfile />
           <p className="mt-6 text-center body2 text-grey-600">
             Allowed *.jpeg, *.jpg, *.png, *.gif
             <br /> max size of 3.1 MB
