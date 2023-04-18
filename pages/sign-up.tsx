@@ -44,14 +44,10 @@ const SignUp = () => {
     }
   })
 
-  const h = (t) => {
-    console.log(t)
-  }
-
   return (
-    <div className="flex w-screen h-screen">
-      <div className="grid w-full h-full place-content-center bg-grey-200 ">
-        <h2 className="text-center heading2">Hi, Welcome back</h2>
+    <div className="flex h-screen w-screen">
+      <div className="grid h-full w-full place-content-center bg-grey-200 ">
+        <h2 className="heading2 text-center">Hi, Welcome back</h2>
         <div className="mt-10">
           <Image src="/image/sign-in/illustration_dashboard.png" alt="me" width="720" height="540" />
         </div>
@@ -62,18 +58,18 @@ const SignUp = () => {
           <div className="flex space-x-4">
             <div className="w-1/2">
               <TextInput id="firstName" label="firstName" className="mt-10" {...register('firstName')} error={errors.firstName} />
-              {errors.firstName ? <p className="mt-2 body2 text-error-300">{errors.firstName.message}</p> : null}
+              {errors.firstName ? <p className="body2 mt-2 text-error-300">{errors.firstName.message}</p> : null}
             </div>
             <div className="w-1/2">
               <TextInput id="lastName" label="lastName" className="mt-10" {...register('lastName')} error={errors.lastName} />
-              {errors.lastName ? <p className="mt-2 body2 text-error-300">{errors.lastName.message}</p> : null}
+              {errors.lastName ? <p className="body2 mt-2 text-error-300">{errors.lastName.message}</p> : null}
             </div>
           </div>
           <TextInput id="email" label="email" className="mt-6" {...register('email')} error={errors.email?.message} />
-          {errors.email ? <p className="mt-2 body2 text-error-300">{errors.email.message}</p> : null}
+          {errors.email ? <p className="body2 mt-2 text-error-300">{errors.email.message}</p> : null}
           <TextInput id="password" label="password" className="mt-6" {...register('password')} error={errors.password} />
-          {errors.password ? <p className="mt-2 body2 text-error-300">{errors.password.message}</p> : null}
-          <Button color="primary" className="w-full h-12 mt-10" onClick={() => onSubmit()} size="large" disabled={!isDirty || !isValid}>
+          {errors.password ? <p className="body2 mt-2 text-error-300">{errors.password.message}</p> : null}
+          <Button color="primary" className="mt-10 h-12 w-full" onClick={() => onSubmit()} size="large" disabled={!isDirty || !isValid}>
             Create Account
           </Button>
         </div>

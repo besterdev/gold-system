@@ -11,7 +11,12 @@ type Items = {
   name: string
   weight: string
   price: string
-  image: string | null
+  image: Image | null
+}
+
+type Image = {
+  url: string
+  file: File
 }
 
 interface ItemListTableProps {
@@ -20,7 +25,7 @@ interface ItemListTableProps {
   deleteItem: (id: string) => void
 }
 
-const ItemListTable = ({ items, handlerEditItem, deleteItem }: any) => {
+const ItemListTable = ({ items, handlerEditItem, deleteItem }: ItemListTableProps) => {
   const options = (itemId: string) => {
     const options = [
       {
@@ -43,8 +48,8 @@ const ItemListTable = ({ items, handlerEditItem, deleteItem }: any) => {
         header: 'ลำดับ',
         colspan: 2,
         cell: ({ row }) => (
-          <div className="flex items-center h-full space-x-4">
-            <p className="capitalize button2 text-grey-800">{row.index + 1}</p>
+          <div className="flex h-full items-center space-x-4">
+            <p className="button2 capitalize text-grey-800">{row.index + 1}</p>
           </div>
         )
       },
@@ -52,7 +57,7 @@ const ItemListTable = ({ items, handlerEditItem, deleteItem }: any) => {
         header: 'รายการ',
         colspan: 2,
         cell: ({ row }) => (
-          <div className="flex items-center justify-start h-full body2 text-grey-800">
+          <div className="body2 flex h-full items-center justify-start text-grey-800">
             <p>{row.original.name}</p>
           </div>
         )
@@ -61,7 +66,7 @@ const ItemListTable = ({ items, handlerEditItem, deleteItem }: any) => {
         header: 'น้ำหนัก',
         colspan: 2,
         cell: ({ row }) => (
-          <div className="flex items-center justify-start h-full body2 text-grey-800">
+          <div className="body2 flex h-full items-center justify-start text-grey-800">
             <p>{toFormatString(Number(row.original.weight))}</p>
           </div>
         )
@@ -70,7 +75,7 @@ const ItemListTable = ({ items, handlerEditItem, deleteItem }: any) => {
         header: 'ราคา',
         colspan: 2,
         cell: ({ row }) => (
-          <div className="flex items-center justify-start h-full space-x-4 body2 text-grey-800">
+          <div className="body2 flex h-full items-center justify-start space-x-4 text-grey-800">
             <p>{row.original.price}</p>
           </div>
         )
@@ -79,13 +84,13 @@ const ItemListTable = ({ items, handlerEditItem, deleteItem }: any) => {
         header: 'รูปภาพ',
         colspan: 2,
         cell: ({ row }) => (
-          <div className="flex items-center justify-start h-full space-x-4 body2 text-grey-800">
+          <div className="body2 flex h-full items-center justify-start space-x-4 text-grey-800">
             <Image
               alt="Mountains"
-              src={row.original?.image || 'https://api.lorem.space/image/fashion?w=150&h=150&r=1y'}
+              src={row.original?.image?.url || 'https://api.lorem.space/image/fashion?w=150&h=150&r=1y'}
               width="0"
               height="0"
-              className="object-cover w-10 h-10 rounded-full"
+              className="h-10 w-10 rounded-full object-cover"
             />
           </div>
         )
@@ -94,7 +99,7 @@ const ItemListTable = ({ items, handlerEditItem, deleteItem }: any) => {
         header: ' ',
         colspan: 2,
         cell: ({ row }) => (
-          <div className="flex items-center justify-end h-full col-span-1 pr-6 text-grey-800">
+          <div className="col-span-1 flex h-full items-center justify-end pr-6 text-grey-800">
             <EllipsisIconOption options={options(row.original.id)} />
           </div>
         )

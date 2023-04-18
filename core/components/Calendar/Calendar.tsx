@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import dayjs from 'dayjs'
+import dayjs, { Dayjs } from 'dayjs'
 import _ from 'lodash'
 import classNames from 'classnames'
 import Header from './Header'
@@ -9,8 +9,8 @@ const daysInWeekTH = ['อาทิตย์', 'จันทร์', 'อัง�
 const days = ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส']
 
 export interface CalendarProps {
-  value: string
-  onChange: (date: string) => any
+  value: Date | Dayjs | null
+  onChange: (date: Date | Dayjs) => void
 }
 
 const Calendar = ({ value, onChange }: CalendarProps) => {
@@ -38,8 +38,13 @@ const Calendar = ({ value, onChange }: CalendarProps) => {
     setDate(date.add(1, 'month'))
   }
 
+  const handYear = (year: number) => {
+    setDate(date.set('years', year))
+    onChange(date.set('years', year))
+  }
+
   return (
-    <div className="border-gray-10 w-[302px] rounded-lg bg-white py-4 shadow-md">
+    <div className="border-gray-10 max-h-[320px] w-[302px] rounded-lg bg-white py-4 shadow-md ">
       <Header
         language="th"
         date={date}
@@ -48,33 +53,51 @@ const Calendar = ({ value, onChange }: CalendarProps) => {
         handleNext={handleNext}
         handlePrev={handlePrev}
       />
-      <div className="grid items-center justify-center grid-cols-7 gap-2 px-7">
-        {_.map(days, (day: any) => (
-          <p className="w-8 h-8 text-center text-gray-400 cursor-default body2 caption3" key={day}>
-            {day}
-          </p>
-        ))}
-      </div>
 
-      <div className="grid items-center justify-center grid-cols-7 body2 gap-x-1 gap-y-1 px-7">
-        {_.map(_.range(firstWeekOfMonth), (day: any) => (
-          <div key={day} />
-        ))}
-        {_.map(_.range(daysInMonth), (day: any) => (
-          <div
-            className={classNames('relative flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-center', {
-              'bg-primary-300 text-white': value === date.set('date', day + 1).format('YYYY-MM-DD'),
-              'border border-grey-500': dayjs(currentDate).format('YYYY-MM-DD') === date.set('date', day + 1).format('YYYY-MM-DD')
-            })}
-            key={day}
-            onClick={() => onChange(date.set('date', day + 1).format('YYYY-MM-DD'))}>
-            <p>{day + 1}</p>
-          </div>
-        ))}
-        {_.map(_.range(lastWeekOfMonth), (day: any) => (
-          <div key={day} />
-        ))}
-      </div>
+      {type === 'day' ? (
+        <div className="body2 grid grid-cols-7 items-center justify-center gap-x-1 gap-y-1 px-7">
+          {_.map(days, (day: any) => (
+            <p className="body2 caption3 h-8 w-8 cursor-default text-center text-gray-400" key={day}>
+              {day}
+            </p>
+          ))}
+          {_.map(_.range(firstWeekOfMonth), (day: any) => (
+            <div key={day} />
+          ))}
+          {_.map(_.range(daysInMonth), (day: any) => (
+            <div
+              className={classNames('relative flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-center', {
+                'bg-primary-300 text-white': dayjs(value).format('YYYY-MM-DD') === date.set('date', day + 1).format('YYYY-MM-DD'),
+                'border border-grey-500': dayjs(currentDate).format('YYYY-MM-DD') === date.set('date', day + 1).format('YYYY-MM-DD')
+              })}
+              key={day}
+              onClick={() => onChange(date.set('date', day + 1))}>
+              <p>{day + 1}</p>
+            </div>
+          ))}
+          {_.map(_.range(lastWeekOfMonth), (day: any) => (
+            <div key={day} />
+          ))}
+        </div>
+      ) : null}
+
+      {type === 'year' ? (
+        <div className="body1 scrollbar-customer grid h-[220px] grid-cols-4 items-center justify-center gap-x-1 gap-y-1 overflow-y-scroll px-7">
+          {_.map(_.range(200), (year: number) => (
+            <div
+              className={classNames('w-full cursor-pointer text-center', {
+                'bg-primary-300 text-white':
+                  dayjs(date)
+                    .set('years', year + 2000)
+                    .get('year') === date.get('year')
+              })}
+              key={`mount_${year}`}
+              onClick={() => handYear(year + 2500 - 543)}>
+              {year + 2500}
+            </div>
+          ))}
+        </div>
+      ) : null}
     </div>
   )
 }

@@ -32,11 +32,11 @@ export const signUpUser = async (user: RegisterInput) => {
 }
 
 export const signIn = async (user: LoginInput) => {
-  const response = await axios.post(`${publicRuntimeConfig.BASE_URL}signin`, user)
+  const response = await axios.post(`${publicRuntimeConfig.BASE_URL}/signin`, user)
   return response.data
 }
 
 export const verify = async (data: VerifyInput) => {
-  const response = await axios.post(`${publicRuntimeConfig.BASE_URL}user/verify`, data)
+  const response = await axios.post(`${publicRuntimeConfig.BASE_URL}/user/verify`, data)
   return response.data
 }

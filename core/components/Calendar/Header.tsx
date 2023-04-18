@@ -16,7 +16,7 @@ const Header = ({ language, date, handlePrev, handleNext, type, setType }: Heade
   return (
     <div className={classNames('flex items-center justify-between px-9 pb-5')}>
       <div className="flex items-center justify-center space-x-1">
-        <p className="cursor-default button1 text-grey-800">
+        <p className="button1 cursor-default text-grey-800">
           {language === 'th' ? date.locale('th').add(543, 'year').format('MMMM YYYY') : date.format('MMMM YYYY')}
         </p>
         <div
@@ -29,21 +29,24 @@ const Header = ({ language, date, handlePrev, handleNext, type, setType }: Heade
           />
         </div>
       </div>
-      <div className={classNames('flex')}>
-        <button
-          className={classNames('hover:bg-gray-10 group right-8 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full', {})}
-          data-cy="core-select-calendar-prev"
-          onClick={handlePrev}>
-          <i className="text-xs text-gray-70 fas fa-chevron-left group-hover:text-primary-50" />
-        </button>
 
-        <button
-          className={classNames('hover:bg-gray-10 group right-8 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full', {})}
-          data-cy="core-select-calendar-next"
-          onClick={handleNext}>
-          <i className="text-xs text-gray-70 fas fa-chevron-right group-hover:text-primary-50" />
-        </button>
-      </div>
+      {type === 'day' ? (
+        <div className={classNames('flex')}>
+          <button
+            className={classNames('hover:bg-gray-10 group right-8 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full', {})}
+            data-cy="core-select-calendar-prev"
+            onClick={handlePrev}>
+            <i className="text-gray-70 fas fa-chevron-left group-hover:text-primary-50 text-xs" />
+          </button>
+
+          <button
+            className={classNames('hover:bg-gray-10 group right-8 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full', {})}
+            data-cy="core-select-calendar-next"
+            onClick={handleNext}>
+            <i className="text-gray-70 fas fa-chevron-right group-hover:text-primary-50 text-xs" />
+          </button>
+        </div>
+      ) : null}
     </div>
   )
 }

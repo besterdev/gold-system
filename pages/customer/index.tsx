@@ -1,191 +1,96 @@
-import React from 'react'
-import CustomerListTable from '@features/customer/components/CustomerListTable'
-import AuthMiddleware from 'core/middleware/AuthMiddleware'
+import React, { useState } from 'react'
+import { useRouter } from 'next/router'
+import { useQuery } from '@tanstack/react-query'
+import { useDebounce } from 'usehooks-ts'
 import _ from 'lodash'
 
+import { getCustomers } from 'core/service/customer'
+import AuthMiddleware from 'core/middleware/AuthMiddleware'
+
 import { Button, SearchInput } from '@core/components'
+import CustomerListTable from '@features/customer/components/CustomerListTable'
+import Pagination from '@core/components/Table/Pagination'
 
-import { useCustomerListStore } from '@features/customer/store'
-import { useRouter } from 'next/router'
-
-type Person = {
-  id: string
-  firstName: string
-  lastName: string
-  idCard: string
-  image: string
-  age: number
-  visits: number
-  status: string
-  progress: number
-  balance: number
+//---------------------
+// VARIABLE
+//---------------------
+const initialQuery = {
+  page: 1,
+  limit: 10,
+  searchWord: ''
 }
-
-const generateRandomIdCard = () => {
-  const numberList = _.map(_.range(13), () => _.random(0, 9))
-  return _.join(numberList, '')
-}
-
-const defaultData: Person[] = [
-  {
-    id: '1',
-    firstName: 'วิรขัย',
-    lastName: 'พรมันลา',
-    idCard: generateRandomIdCard(),
-    image: 'https://api.lorem.space/image/fashion?w=150&h=150&r=1',
-    age: _.random(25, 70),
-    visits: 2,
-    status: 'Active',
-    progress: 50,
-    balance: 30000
-  },
-  {
-    id: '2',
-    firstName: 'สุพิศ',
-    lastName: 'วิเศษชาติ',
-    idCard: generateRandomIdCard(),
-    image: 'https://api.lorem.space/image/fashion?w=150&h=150&r=2',
-    age: _.random(25, 70),
-    visits: 3,
-    status: 'Active',
-    progress: 80,
-    balance: 530000
-  },
-  {
-    id: '3',
-    firstName: 'นฤเดช',
-    lastName: 'บัวพร',
-    idCard: generateRandomIdCard(),
-    image: 'https://api.lorem.space/image/fashion?w=150&h=150&r=3',
-    age: _.random(25, 70),
-    visits: 1,
-    status: 'Banned',
-    progress: 10,
-    balance: 80000
-  },
-  {
-    id: '4',
-    firstName: 'อำพร',
-    lastName: 'แก้วจันทร์',
-    idCard: generateRandomIdCard(),
-    image: 'https://api.lorem.space/image/fashion?w=150&h=150&r=4',
-    age: _.random(25, 70),
-    visits: 2,
-    status: 'Banned',
-    progress: 10,
-    balance: 80000
-  },
-  {
-    id: '5',
-    firstName: 'ลำดวน',
-    lastName: 'โพธิ์แก้ว',
-    idCard: generateRandomIdCard(),
-    image: 'https://api.lorem.space/image/fashion?w=150&h=150&r=5',
-    age: _.random(25, 70),
-    visits: 1,
-    status: 'Banned',
-    progress: 10,
-    balance: 80000
-  },
-  {
-    id: '6',
-    firstName: 'ธรีพล',
-    lastName: 'ศรชัย',
-    idCard: generateRandomIdCard(),
-    image: 'https://api.lorem.space/image/fashion?w=150&h=150&r=6',
-    age: _.random(25, 70),
-    visits: 3,
-    status: 'Active',
-    progress: 10,
-    balance: 80000
-  },
-  {
-    id: '7',
-    firstName: 'วิรรณภา',
-    lastName: 'สิงห์ศร',
-    idCard: generateRandomIdCard(),
-    image: 'https://api.lorem.space/image/fashion?w=150&h=150&r=7',
-    age: _.random(25, 70),
-    visits: 1,
-    status: 'Active',
-    progress: 10,
-    balance: 80000
-  },
-  {
-    id: '8',
-    firstName: 'สิทธิ์ศักดิ์',
-    lastName: 'วิเศษชาติ',
-    idCard: generateRandomIdCard(),
-    image: 'https://api.lorem.space/image/fashion?w=150&h=150&r=8',
-    age: _.random(25, 70),
-    visits: 2,
-    status: 'Active',
-    progress: 10,
-    balance: 80000
-  },
-  {
-    id: '9',
-    firstName: 'สุวรรณา',
-    lastName: 'วงศ์ภักดี',
-    idCard: generateRandomIdCard(),
-    image: 'https://api.lorem.space/image/fashion?w=150&h=150&r=9',
-    age: _.random(25, 70),
-    visits: 1,
-    status: 'Active',
-    progress: 10,
-    balance: 80000
-  },
-  {
-    id: '10',
-    firstName: 'ธีดา',
-    lastName: 'หาวัน',
-    idCard: generateRandomIdCard(),
-    image: 'https://api.lorem.space/image/fashion?w=150&h=150&r=10',
-    age: _.random(25, 70),
-    visits: 3,
-    status: 'Active',
-    progress: 10,
-    balance: 80000
-  }
-]
 
 const Customer = () => {
+  //---------------------
+  // ROUTER
+  //---------------------
   const router = useRouter()
-  // const [search, setSearch] = useState('')
-  // const [data, setData] = React.useState(() => [...defaultData])
-  // const debouncedValue = useDebounce<string>(search, 500)
 
-  // const search = useCustomerListStore((state: any) => state.search)
+  //---------------------
+  // STATE
+  //---------------------
+  const [query, setQuery] = useState(initialQuery)
 
-  const { person, search, setSearch } = useCustomerListStore()
+  //---------------------
+  // HOOKS
+  //---------------------
+  const searchWord = useDebounce<string>(query.searchWord, 800)
+  const page = query.page
 
+  //---------------------
+  // QUERY DATA
+  //---------------------
+  const { data, isFetched, error } = useQuery({
+    queryKey: ['customers', { searchWord, page }],
+    keepPreviousData: true,
+    queryFn: async () => getCustomers(query)
+  })
+
+  //---------------------
+  // HANDLER
+  //---------------------
+  const handlePrev = () => {
+    if (query.page > 1) {
+      setQuery({ ...query, page: page - 1 })
+    }
+  }
+
+  const handleNext = () => {
+    if (query.page < data?.totalPage) {
+      setQuery({ ...query, page: page + 1 })
+    }
+  }
+
+  const onChangeSearchWord = (searchWord: string) => {
+    setQuery({ ...query, page: 1, searchWord: searchWord })
+  }
+
+  //---------------------
+  // RENDER
+  //---------------------
   return (
     <AuthMiddleware>
-      <div className="container grid w-screen h-screen mx-auto bg-white-200">
-        <main className="flex flex-col justify-center w-full px-40 py-10">
-          <div className="flex justify-between mb-10">
+      <div className="bg-white-200 container mx-auto grid h-screen w-screen">
+        <main className="flex w-full flex-col justify-start px-40 pt-20 pb-10">
+          <div className="mb-10 flex justify-between">
             <p className="heading3 text-grey-800">รายการลูกค้า</p>
-            <Button onClick={() => router.push('/customer/new')} size="large">
-              <i className="mr-2 fa-solid fa-plus" />
-              New Customer
+            <Button onClick={() => router.push('/customer/new')} size="large" className="h-12">
+              <i className="fa-solid fa-plus mr-2" />
+              เพิ่มข้อมูลลูกค้า
             </Button>
           </div>
-          <div className="overflow-hidden bg-white rounded-2xl shadow-card">
+          <div className="overflow-hidden rounded-2xl bg-white shadow-card">
             <div className="w-full p-6 ">
-              <SearchInput placeholder="ค้าหาชื่อลูกค้า หรือ เลขบัตรประชาชน" value={search} onChange={(value) => setSearch(value)} />
+              <SearchInput placeholder="ค้าหาชื่อลูกค้า หรือ เลขบัตรประชาชน" value={query.searchWord} onChange={onChangeSearchWord} />
             </div>
-            <CustomerListTable data={defaultData} />
-            <div className="flex items-center justify-between px-6 py-4 border-t">
-              <p className="body2 text-grey-600">Result 1-10 of 54</p>
-              <div className="flex space-x-4">
-                <div className="flex items-center justify-center w-4 h-4 p-2 rounded-full cursor-pointer text-grey-800 hover:bg-grey-200">
-                  <i className="text-xs fa-solid fa-chevron-left" />
-                </div>
-                <div className="flex items-center justify-center w-4 h-4 p-2 rounded-full cursor-pointer text-grey-800 hover:bg-grey-200">
-                  <i className="text-xs fa-solid fa-chevron-right" />
-                </div>
-              </div>
-            </div>
+            <CustomerListTable data={data?.customers || []} isFetched={!isFetched} error={error} searchWord={searchWord} />
+            <Pagination
+              page={query.page}
+              dataSize={_.size(data?.customers)}
+              totalCount={data?.totalCount}
+              handlePrev={handlePrev}
+              handleNext={handleNext}
+            />
           </div>
         </main>
       </div>

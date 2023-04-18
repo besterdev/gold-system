@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
 import useOnClickOutside from '@core/hooks/useOnClickOutside'
 import Calendar from '../Calendar/Calendar'
-import dayjs from 'dayjs'
+import dayjs, { Dayjs } from 'dayjs'
 import 'dayjs/locale/th'
 
 interface DatePickerProps {
@@ -9,9 +9,9 @@ interface DatePickerProps {
   label?: string
   error?: string
   className?: string
-  value: string
+  value: Date | Dayjs | null
   disabled?: boolean
-  onChange: (date: string) => void
+  onChange: (date: Date | Dayjs) => void
 }
 
 const inputStyles = {
@@ -52,7 +52,7 @@ export const DatePicker = ({ id, label, className, error, value, disabled, onCha
           `}
         {...props}
         onClick={() => !disabled && handleClickInside()}>
-        <p className="subtitle2">{dayjs(value).locale('th').add(543, 'year').format('DD MMM YY')}</p>
+        <p className="subtitle2">{value ? dayjs(value).locale('th').add(543, 'year').format('DD MMM YYYY') : null}</p>
       </div>
 
       <label

@@ -6,8 +6,8 @@ const nextConfig = {
     BASE_URL: process.env.BASE_URL
   },
   images: {
-    domains: ['api.lorem.space'],
-  },
+    domains: ['api.lorem.space', 'robohash.org', 'res.cloudinary.com']
+  }
 }
 
 module.exports = nextConfig

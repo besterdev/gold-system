@@ -18,7 +18,7 @@ const labelStyles = {
 }
 
 // eslint-disable-next-line react/display-name
-export const TextArea = forwardRef<HTMLInputElement, TextAreaProps>(({ id, label, error, className, ...props }, ref) => {
+export const TextArea = forwardRef<HTMLInputElement, TextAreaProps>(({ id, label, error, className, value, onChange, ...props }, ref) => {
   return (
     <div className={`relative ${className}`}>
       <textarea
@@ -32,6 +32,9 @@ export const TextArea = forwardRef<HTMLInputElement, TextAreaProps>(({ id, label
             }`}
         placeholder=" "
         {...props}
+        onChange={onChange}
+        value={value}
+        autoComplete="off"
       />
       <label
         htmlFor={id}

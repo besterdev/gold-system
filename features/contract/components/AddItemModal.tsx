@@ -18,7 +18,12 @@ interface FormData {
   name: string
   weight: string
   price: string
-  image: string | null
+  image: Image | null
+}
+
+type Image = {
+  url: string
+  file: File
 }
 
 const schema = yup.object({
@@ -68,23 +73,23 @@ const AddItemModal = ({ handleSaveItem, item }: AddItemModalProps) => {
     <Modal>
       <div className="w-[480px]">
         <h1 className="heading5"> {isEdit ? 'แก้ไขรายการ' : 'เพิ่มรายการ'}</h1>
-        <div className="flex flex-col mt-6 mb-6 space-y-4">
+        <div className="mt-6 mb-6 flex flex-col space-y-4">
           <div className="w-full">
             <TextInput id="firstName" label="รายการ" {...register('name')} error={errors.name} />
-            {errors.name ? <p className="mt-2 body2 text-error-300">{errors.name.message}</p> : null}
+            {errors.name ? <p className="body2 mt-2 text-error-300">{errors.name.message}</p> : null}
           </div>
           <div className="w-full">
             <TextInput id="firstName" label="น้ำหนัก" {...register('weight')} error={errors.weight} />
-            {errors.weight ? <p className="mt-2 body2 text-error-300">{errors.weight.message}</p> : null}
+            {errors.weight ? <p className="body2 mt-2 text-error-300">{errors.weight.message}</p> : null}
           </div>
           <div className="w-full">
             <TextInput id="firstName" label="ราคา" {...register('price')} error={errors.price} />
-            {errors.price ? <p className="mt-2 body2 text-error-300">{errors.price.message}</p> : null}
+            {errors.price ? <p className="body2 mt-2 text-error-300">{errors.price.message}</p> : null}
           </div>
         </div>
-        <p className="mb-2 heading7 text-grey-800">image</p>
-        <UploadFile image={watch('image')} onSetImage={(img) => setValue('image', img)} />
-        <div className="flex items-end justify-end mt-6 space-x-4">
+        <p className="heading7 mb-2 text-grey-800">image</p>
+        <UploadFile image={watch('image')} onChange={(img) => setValue('image', img)} />
+        <div className="mt-6 flex items-end justify-end space-x-4">
           <Button color="custom" className="h-10 text-success-300 hover:bg-grey-200" onClick={handlerClose} size="large">
             ยกเลิก
           </Button>

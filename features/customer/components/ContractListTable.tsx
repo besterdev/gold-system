@@ -3,9 +3,11 @@ import Router from 'next/router'
 import { ColumnDef } from '@tanstack/react-table'
 import _ from 'lodash'
 import classNames from 'classnames'
+import 'dayjs/locale/th'
 
 import { DataTable, EllipsisIconOption } from '@core/components/index'
 import { toFormatString } from 'core/utils/format'
+import dayjs from 'dayjs'
 
 type Item = {
   image: string
@@ -13,16 +15,17 @@ type Item = {
 }[]
 
 type Contract = {
-  contractId: string
-  item: Item
-  status: 'active' | 'close'
-  balancePayment: number
-  interest: number
-  openDate: string
-  closeDate: string
+  createdAt: Date
+  customerId: string
+  id: string
+  period: number
+  startDate: Date
+  status: boolean
+  updatedAt: Date
+  items: Item
 }
 
-const ContractListTable = ({ data }: any) => {
+const ContractListTable = ({ data, isFetched, error }: any) => {
   const options = (contractId: string) => {
     const options = [
       {
@@ -50,8 +53,8 @@ const ContractListTable = ({ data }: any) => {
         header: 'เลขที่สัญญา',
         colspan: 3,
         cell: ({ row }) => (
-          <div className="flex items-center h-full space-x-4">
-            <p className="capitalize button2 text-grey-800">{row.original.contractId}</p>
+          <div className="flex h-full items-center space-x-4">
+            <p className="button2 capitalize text-grey-800">{row.original.id}</p>
           </div>
         )
       },
@@ -59,8 +62,8 @@ const ContractListTable = ({ data }: any) => {
         header: 'จำนวนเงิน',
         colspan: 2,
         cell: ({ row }) => (
-          <div className="flex items-center justify-start h-full body2 text-grey-800">
-            <p>{toFormatString(row.original.balancePayment)}</p>
+          <div className="body2 flex h-full items-center justify-start text-grey-800">
+            <p>{toFormatString(row.original?.balancePayment || 28000)}</p>
           </div>
         )
       },
@@ -68,8 +71,8 @@ const ContractListTable = ({ data }: any) => {
         header: 'ดอกเบี้ย',
         colspan: 2,
         cell: ({ row }) => (
-          <div className="flex items-center justify-start h-full body2 text-grey-800">
-            <p>{toFormatString(row.original.interest)}</p>
+          <div className="body2 flex h-full items-center justify-start text-grey-800">
+            <p>{toFormatString(row.original?.interest || 8)}</p>
           </div>
         )
       },
@@ -77,8 +80,8 @@ const ContractListTable = ({ data }: any) => {
         header: 'วันที่เริ่มสัญญา',
         colspan: 2,
         cell: ({ row }) => (
-          <div className="flex items-center justify-start h-full space-x-4 body2 text-grey-800">
-            <p>{row.original.openDate}</p>
+          <div className="body2 flex h-full items-center justify-start space-x-4 text-grey-800">
+            <p>{dayjs(row.original.startDate).locale('th').add(543, 'year').format('DD MMM YYYY')}</p>
           </div>
         )
       },
@@ -86,13 +89,13 @@ const ContractListTable = ({ data }: any) => {
         header: 'สถานะ',
         colspan: 2,
         cell: ({ row }) => (
-          <div className="flex items-center justify-start h-full">
+          <div className="flex h-full items-center justify-start">
             <div
               className={classNames('rounded-md  px-2.5', {
-                'bg-green-100 text-green-600': row.original?.status === 'active',
-                'bg-red-100 text-red-600': row.original?.status === 'close'
+                'bg-green-100 text-green-600': row.original?.status,
+                'bg-red-100 text-red-600': !row.original?.status
               })}>
-              <p className="button2">{row.original?.status === 'active' ? 'เปิด' : 'ปิด'}</p>
+              <p className="button2">{row.original?.status ? 'เปิด' : 'ปิด'}</p>
             </div>
           </div>
         )
@@ -101,8 +104,8 @@ const ContractListTable = ({ data }: any) => {
         header: ' ',
         colspan: 1,
         cell: ({ row }) => (
-          <div className="flex items-center justify-end h-full col-span-1 pr-6 text-grey-800">
-            <EllipsisIconOption options={options(row.original?.contractId)} />
+          <div className="col-span-1 flex h-full items-center justify-end pr-6 text-grey-800">
+            <EllipsisIconOption options={options(row.original?.id)} />
           </div>
         )
       }
@@ -110,7 +113,7 @@ const ContractListTable = ({ data }: any) => {
     []
   )
 
-  return <DataTable columns={columns} data={data} />
+  return <DataTable columns={columns} data={data} isFetched={isFetched} error={error} />
 }
 
 export default ContractListTable

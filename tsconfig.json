@@ -20,6 +20,7 @@
       "@core/components": ["core/components"],
       "@core/hooks/*": ["core/hooks/*"],
       "@core/slice/*": ["core/slice/*"],
+      "@core/utils/*": ["core/utils/*"],
       "@features/*": ["features/*"],
       "@store": ["store"],
       "@styles/*": ["styles/*"],

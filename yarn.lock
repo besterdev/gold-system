@@ -220,17 +220,17 @@
     "@tanstack/query-core" "4.20.4"
     use-sync-external-store "^1.2.0"
 
-"@tanstack/react-table@^8.7.4":
-  version "8.7.4"
-  resolved "https://registry.yarnpkg.com/@tanstack/react-table/-/react-table-8.7.4.tgz#cca662c738cd23f8f7522907a9612e08640ed4e0"
-  integrity sha512-4Q1OV3kUSxbtekclS3sqjCyCDowqCPruUCfHm1nGoPSmVLRCHoQ1E2rmzTVGeocEKgV9TDnj39tOgGwcADPuPA==
+"@tanstack/react-table@^8.8.0":
+  version "8.8.0"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-table/-/react-table-8.8.0.tgz#f20e1d5b2615bf785adfb727b89dcf55e72cdab8"
+  integrity sha512-K55peZ4VNRA+Jk/rSI8+0Tj/T9q8SyysmnK08wO/5kgIX3MhGL7wl0858eEcvd/2eq+CPPmhQx9wYoWOWtFEhg==
   dependencies:
-    "@tanstack/table-core" "8.7.4"
+    "@tanstack/table-core" "8.8.0"
 
-"@tanstack/table-core@8.7.4":
-  version "8.7.4"
-  resolved "https://registry.yarnpkg.com/@tanstack/table-core/-/table-core-8.7.4.tgz#e6eb718db7fc45c95e8e64e1c66e08a78fa78bf7"
-  integrity sha512-OPhzca7e83KGukxLpZ+4F9OBp9CZXi9b/OGJBH8dlC3wpffcSSDczYGUGJKG7wirXQ6cUVYL+9G6UrrdnblKNQ==
+"@tanstack/table-core@8.8.0":
+  version "8.8.0"
+  resolved "https://registry.yarnpkg.com/@tanstack/table-core/-/table-core-8.8.0.tgz#7b6db72ea82175495528313513d825e312cbe58b"
+  integrity sha512-P8Vk9yngfai1GLEfyqtT0b+Dty8subPR8yl5r1z/z4Z8NtaCIL1n+OmMV1QBU8WojeSSsWgr+o1CTxnaaOBoyQ==
 
 "@types/hoist-non-react-statics@^3.3.1":
   version "3.3.1"
@@ -2361,6 +2361,11 @@ use-sync-external-store@1.2.0, use-sync-external-store@^1.0.0, use-sync-external
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/use-sync-external-store/-/use-sync-external-store-1.2.0.tgz#7dbefd6ef3fe4e767a0cf5d7287aacfb5846928a"
   integrity sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==
+
+usehooks-ts@^2.9.1:
+  version "2.9.1"
+  resolved "https://registry.yarnpkg.com/usehooks-ts/-/usehooks-ts-2.9.1.tgz#953d3284851ffd097432379e271ce046a8180b37"
+  integrity sha512-2FAuSIGHlY+apM9FVlj8/oNhd+1y+Uwv5QNkMQz1oSfdHk4PXo1qoCw9I5M7j0vpH8CSWFJwXbVPeYDjLCx9PA==
 
 util-deprecate@^1.0.2:
   version "1.0.2"

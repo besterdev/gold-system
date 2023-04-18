@@ -19,29 +19,29 @@ const AuthMiddleware = ({ children }: AuthMiddlewareProps) => {
   const { isLoading } = useQuery(['me'], async () => await getMe(Cookies.get('access_token')), {
     onSuccess: (data) => {
       setUser(data)
-    },
-    onError: async (error: any) => {
-      if (error.response?.status === 401) {
-        await useDialogStore.setState({
-          image: '/image/verify/cancel.svg',
-          content: 'invalid otp code passed. check your email',
-          onConfirm: () => Router.push('/sign-in')
-        })
-        toggleDialog()
-      } else {
-        useDialogStore.setState({
-          image: '/image/verify/cancel.svg',
-          content: 'was wrong error!',
-          onConfirm: () => Router.push('/sign-in')
-        })
-        toggleDialog()
-      }
     }
+    // onError: async (error: any) => {
+    //   if (error.response?.status === 401) {
+    //     await useDialogStore.setState({
+    //       image: '/image/verify/cancel.svg',
+    //       content: 'invalid otp code passed. check your email',
+    //       onConfirm: () => Router.push('/sign-in')
+    //     })
+    //     toggleDialog()
+    //   } else {
+    //     useDialogStore.setState({
+    //       image: '/image/verify/cancel.svg',
+    //       content: 'was wrong error!',
+    //       onConfirm: () => Router.push('/sign-in')
+    //     })
+    //     toggleDialog()
+    //   }
+    // }
   })
 
-  if (isLoading) {
-    return <div className="grid h-screen bg-white-200 place-content-center">Loading...</div>
-  }
+  // if (isLoading) {
+  //   return <div className="grid h-screen bg-white-200 place-content-center">Loading...</div>
+  // }
 
   return children
 }

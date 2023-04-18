@@ -14,7 +14,7 @@
     "@hookform/resolvers": "^2.9.10",
     "@reduxjs/toolkit": "^1.9.0",
     "@tanstack/react-query": "^4.20.4",
-    "@tanstack/react-table": "^8.7.4",
+    "@tanstack/react-table": "^8.8.0",
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",
     "@types/react-dom": "18.0.9",
@@ -31,6 +31,7 @@
     "react-hook-form": "^7.41.2",
     "react-redux": "^8.0.5",
     "typescript": "4.9.3",
+    "usehooks-ts": "^2.9.1",
     "yup": "^0.32.11",
     "zustand": "^4.1.5"
   },
