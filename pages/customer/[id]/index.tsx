@@ -1,32 +1,11 @@
 import { useState } from 'react'
 import Router, { useRouter } from 'next/router'
 import { useQuery } from '@tanstack/react-query'
-import Image from 'next/image'
 
 import { getCustomer, getContracts } from 'core/service'
 
-import { Button, SearchInput, Tabs } from '@core/components'
-import { DatePicker } from '@core/components/Forms/DatePicker'
+import { Button, Tabs, ImageFallback } from '@core/components'
 import ContractListTable from '@features/customer/components/ContractListTable'
-
-const defaultData = [
-  {
-    contractId: '0001',
-    item: { name: 'สร้อย', cover: 'https://api.lorem.space/image/fashion?w=150&h=150&r=1' },
-    status: 'active',
-    balancePayment: 35000,
-    interest: 700,
-    openDate: '12 มกราคม 25652'
-  },
-  {
-    contractId: '0002',
-    item: { name: 'แหวน', cover: 'https://api.lorem.space/image/fashion?w=150&h=150&r=1' },
-    status: 'close',
-    balancePayment: 55000,
-    interest: 550,
-    openDate: '1 มกราคม 25652'
-  }
-]
 
 type InitialQuery = {
   page: number
@@ -55,14 +34,8 @@ const CustomerProfile = () => {
   //---------------------
   // QUERY DATA
   //---------------------
-  const {
-    data: customer,
-    isLoading,
-    isFetched,
-    error
-  } = useQuery({
+  const { data: customer, isLoading: isLoadingCustomer } = useQuery({
     queryKey: ['customer', customerId],
-    // keepPreviousData: true,
     queryFn: async () => getCustomer(customerId)
   })
 
@@ -95,7 +68,7 @@ const CustomerProfile = () => {
   //---------------------
   // RENDER
   //---------------------
-  if (isLoading) return 'loading'
+  if (isLoadingCustomer || isLoadingContract) return 'loading'
 
   return (
     <div className="bg-white-200 container mx-auto h-screen">
@@ -117,7 +90,7 @@ const CustomerProfile = () => {
       </div>
       <div className="mt-10 flex items-start space-x-8">
         <div className="flex w-1/4 flex-col items-center justify-center rounded-2xl bg-white px-6 py-10 shadow-card">
-          <Image className="rounded-full" alt="Mountains" width={160} height={160} src={customer?.image} />
+          <ImageFallback src={customer?.image} alt="modal_image" className="h-40 w-40 overflow-hidden rounded-full" />
           <p className="button1 mt-4">{`${customer?.firstName} ${customer?.lastName}`}</p>
           <div className="mt-4 w-full">
             <div className="flex space-x-4">
@@ -134,7 +107,6 @@ const CustomerProfile = () => {
             </div>
           </div>
         </div>
-
         <div className="w-full rounded-2xl shadow-card">
           <div className="button1 rounded-t-2xl bg-grey-200 px-6 py-2">
             <Tabs tabs={tabs} />

@@ -8,6 +8,7 @@ import _ from 'lodash'
 import { createCustomer } from 'core/service/customer'
 
 import { TextInput, Button, TextArea, UploadProfile, DatePicker } from '@core/components'
+import { useRouter } from 'next/router'
 
 interface FormData {
   firstName: string
@@ -32,6 +33,14 @@ const schema = yup.object({
 const initValueNewUser = { firstName: '', lastName: '', idCard: '', phone: '', address: '', email: '', birthday: null, image: null }
 
 const NewUserPage = () => {
+  //---------------------
+  // ROUTER
+  //---------------------
+  const router = useRouter()
+
+  //---------------------
+  // FORM
+  //---------------------
   const {
     formState: { errors, isDirty, isValid },
     register,
@@ -47,7 +56,7 @@ const NewUserPage = () => {
     let formData: any = _.cloneDeep(data)
 
     const image: File | null | undefined = data.image
-    console.log(formData)
+
     if (image) {
       delete formData.image
       const reader = new FileReader()
@@ -61,7 +70,7 @@ const NewUserPage = () => {
 
   const useSubmitForm = useMutation((data: any) => createCustomer(data), {
     onSuccess: (data) => {
-      console.log(data)
+      router.push(`/customer/${data.customerId}`)
     }
   })
 
@@ -100,7 +109,6 @@ const NewUserPage = () => {
             id="address"
             label="ที่อยู่"
             className="col-span-2 w-full"
-            // {...register('address')}
             error={errors.address}
             value={watch('address')}
             onChange={(e) => setValue('address', e.target.value)}
